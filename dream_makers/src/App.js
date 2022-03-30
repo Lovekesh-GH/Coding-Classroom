@@ -4,6 +4,7 @@ import alanBtn from "@alan-ai/alan-sdk-web";
 import Navbar from "./Navbar";
 import Home from "./Home";
 import Tutorial from "./Tutorial";
+import About from "./About";
 
 function App() {
   const alanBtnInstance = useRef(null);
@@ -87,7 +88,11 @@ function App() {
             if(tutFunc.current){
               tutFunc.current.myForFunction(one, two, three);
             }
-          }  else if (commandData.command === "submit") {
+          } else if (commandData.command === "clear") {
+            if (tutFunc.current) {
+              tutFunc.current.myCleatFunction();
+            }
+          } else if (commandData.command === "submit") {
             if (tutFunc.current) {
               tutFunc.current.handleSubmit();
               sendData();
@@ -115,6 +120,7 @@ function sendData(output) {
         <Navbar ref={navbarFunc}/>
         <Routes>
           <Route path="/Tutorial" element={<Tutorial ref={tutFunc} sendFunc={sendData}/>} />
+          <Route path="/About" element={<About />} />
           <Route exact path="/" element={<Home />} />
         </Routes>
       </div>
