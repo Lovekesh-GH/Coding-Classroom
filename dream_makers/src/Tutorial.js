@@ -1,4 +1,3 @@
-/* eslint-disable eqeqeq */
 import axios from "axios";
 import React, { useState, useEffect,useRef } from "react";
 import stubs from "./stubs";
@@ -7,7 +6,6 @@ const Tutorial=React.forwardRef((props,ref)=> {
   const [code, setCode] = useState(null);
   const [language, setLanguage] = useState("");
   const [output, setOutput] = useState("");
-//  custom hook to prevent useEffect;s initial render:
   const useDidMountEffect = (func, deps) => {
     const didMount = useRef(false);
   
@@ -37,12 +35,17 @@ const Tutorial=React.forwardRef((props,ref)=> {
   const submitHandler = async () => {
     let postTokenoptions = {
       method: "POST",
-      url: "",
+      url: "https://judge0-ce.p.rapidapi.com/submissions",
       params: { base64_encoded: "false", fields: "*", wait: true },
       headers: {
         "content-type": "application/json",
-        "x-rapidapi-host": "",
-        "x-rapidapi-key": "",
+        "x-rapidapi-host": "judge0-ce.p.rapidapi.com",
+        "x-rapidapi-key": "078ccedceemsh7c7f7228a49c5b1p17ab36jsnaf56639a0967",
+      },
+      data: {
+        language_id: 71,
+        source_code: code,
+        stdin: null,
       },
     };
 
@@ -125,13 +128,11 @@ const Tutorial=React.forwardRef((props,ref)=> {
       return res;
     },
     myIncFunction(a, b) {
-      // eslint-disable-next-line no-useless-concat
       let str = a + " " + "+" + "=" + " " + b;
       let res = setCode((prevState) => prevState.concat(str));
       return res;
     },
     myFuncFunction(a, b) {
-      // eslint-disable-next-line no-useless-concat
       let str = "def" + " " + a + "(" + b + ")" + ":";
   
       return setCode((prevState) => prevState.concat(str));
