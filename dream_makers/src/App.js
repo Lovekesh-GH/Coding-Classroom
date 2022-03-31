@@ -5,11 +5,14 @@ import Navbar from "./Navbar";
 import Home from "./Home";
 import Tutorial from "./Tutorial";
 import About from "./About";
+import Questions from './Questions';
+import CodingTemplate from './CodingTemplate';
 
 function App() {
   const alanBtnInstance = useRef(null);
   const navbarFunc = useRef(null);
   const tutFunc = useRef(null);
+  const homeFunc = useRef(null);
 
   function navigationHandler(value) {
     if (navbarFunc.current) {
@@ -33,7 +36,9 @@ function App() {
             if (tutFunc.current) {
               tutFunc.current.myPrintFunction(response);
             }
-          } else if (commandData.command === "variable") {
+          } else if (commandData.command === "gotoFaq") {
+            homeFunc.current.childFuncHandler(commandData.faqId - 1);
+          }else if (commandData.command === "variable") {
             let one = commandData.vari;
             let two = commandData.No;
             console.log(one);
@@ -95,7 +100,9 @@ function App() {
             navigationHandler("/Tutorial");
           } else if(commandData.command === "goHome"){
             navigationHandler("/");
-          }else if (commandData.command === "clear") {
+          } else if(commandData.command === "goQuestions"){
+          navigationHandler("/Questions");
+         }  else if (commandData.command === "clear") {
             if (tutFunc.current) {
               tutFunc.current.myCleatFunction();
             }
@@ -103,7 +110,6 @@ function App() {
             //  mySubmitFunction();
             if (tutFunc.current) {
               tutFunc.current.handleSubmit();
-              sendData();
             }
           }
         },
@@ -127,9 +133,12 @@ function sendData(output) {
       <div className="">
         <Navbar ref={navbarFunc}/>
         <Routes>
-          <Route path="/Tutorial" element={<Tutorial ref={tutFunc} sendFunc={sendData}/>} />
+          <Route path="/Tutorial" element={<Tutorial ref={tutFunc} sendFunc={sendData} 
+            initCode={`print("Hello world!")`} />} />
           <Route path="/About" element={<About />} />
-          <Route exact path="/" element={<Home />} />
+          <Route exact path="/Questions" element={<Questions />} />
+          <Route path="/Questions/*" element={<CodingTemplate ref={tutFunc} sendData={sendData}/>} />
+          <Route exact path="/" element={<Home ref={homeFunc}/>} />
         </Routes>
       </div>
     </Router>

@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable eqeqeq */
 import axios from "axios";
 import React, { useState, useEffect,useRef } from "react";
 import stubs from "./stubs";
@@ -6,6 +8,7 @@ const Tutorial=React.forwardRef((props,ref)=> {
   const [code, setCode] = useState(null);
   const [language, setLanguage] = useState("");
   const [output, setOutput] = useState("");
+//  custom hook to prevent useEffect's initial render:
   const useDidMountEffect = (func, deps) => {
     const didMount = useRef(false);
   
@@ -19,17 +22,12 @@ const Tutorial=React.forwardRef((props,ref)=> {
   };
 
   useEffect(() => {
+    if(!props.initCode)
     setCode(stubs[language]);
   }, [language]);
 
   useEffect(() => {
-    const defaultLang = localStorage.getItem("default-language") || "c";
-    setLanguage(defaultLang);
-    setCode(`#include <stdio.h>
-    int main() {
-      printf("Hello World!");
-      return 0;
-    }`)
+    setCode(`${props.initCode}`);
   }, []);
 
   const submitHandler = async () => {
@@ -45,13 +43,13 @@ const Tutorial=React.forwardRef((props,ref)=> {
       data: {
         language_id: 71,
         source_code: code,
+        // source_code: "print('Hello World')",
         stdin: null,
       },
     };
 
     try {
       const response = await axios.request(postTokenoptions);
-
       setOutput(response.data.stdout);
     } catch (err) {
       console.log(err);
@@ -128,11 +126,13 @@ const Tutorial=React.forwardRef((props,ref)=> {
       return res;
     },
     myIncFunction(a, b) {
+      // eslint-disable-next-line no-useless-concat
       let str = a + " " + "+" + "=" + " " + b;
       let res = setCode((prevState) => prevState.concat(str));
       return res;
     },
     myFuncFunction(a, b) {
+      // eslint-disable-next-line no-useless-concat
       let str = "def" + " " + a + "(" + b + ")" + ":";
   
       return setCode((prevState) => prevState.concat(str));
@@ -167,10 +167,6 @@ const Tutorial=React.forwardRef((props,ref)=> {
     }
   }))
 
-  function setDefaultLanguage(){
-    localStorage.setItem("default-language", language);
-    console.log(`${language} set as default!`);
-  }
   function inputChangeHandler(event) {
     console.log("abs3", code);
     
@@ -179,39 +175,10 @@ const Tutorial=React.forwardRef((props,ref)=> {
 
   return (
     <div>
-      {/* <Navbar hidden="hidden" ref={childFunc}></Navbar> */}
       <section className="p-10 ">
         <h1 className="text-4xl sm:text-5xl flex justify-center p-5 font-exo">
           Compiler
         </h1>
-        <div className="flex gap-5 mb-5 h-10">
-          <label className="text-lg font-bold">Language: </label>
-          <select
-            value={language}
-            className="text-lg border-2 border-gray-600 rounded-xl bg-gray-200 hover:bg-gray-300 px-3 py-1"
-            onChange={(e) => {
-              const shouldSwitch = window.confirm(
-                "Do you want to change the language? WARNING: Your current code will be lost."
-              );
-              if (shouldSwitch) {
-                setLanguage(e.target.value);
-              }
-            }}
-          >
-            <option value="c">C</option>
-            <option value="cpp">C++</option>
-            <option value="java">Java</option>
-            <option value="py">Python</option>
-          </select>
-
-          <button
-            className="text-lg border-2 border-cyan-600 rounded-xl bg-cyan-200 hover:bg-cyan-500 px-3 py-1"
-            onClick={setDefaultLanguage}
-          >
-            Set Default
-          </button>
-        </div>
-
         <textarea
           rows="20"
           value={code}
@@ -221,19 +188,14 @@ const Tutorial=React.forwardRef((props,ref)=> {
         <div className="my-2">
           <button
             className="text-lg border-2 border-red-600 rounded-xl bg-red-200 hover:bg-red-500 px-3 py-1"
-            onClick={submitHandler}
-          >
-            {/* onClick="handleSubmit"> */}
+            onClick={submitHandler}>
             Submit
           </button>
         </div>
         <textarea
           className="border-2 border-gray-200 h-36 lg:w-[50vw] w-full rounded-xl p-2"
           placeholder="Output"
-          value={output}
-         
-        >
-          
+          value={output}>
  </textarea>
         
       </section>
