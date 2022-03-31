@@ -88,11 +88,19 @@ function App() {
             if(tutFunc.current){
               tutFunc.current.myForFunction(one, two, three);
             }
-          } else if (commandData.command === "clear") {
+          } else if (commandData.command === "goAbout") {
+            navigationHandler("/About");
+      
+          } else if (commandData.command === "goTutorial") {
+            navigationHandler("/Tutorial");
+          } else if(commandData.command === "goHome"){
+            navigationHandler("/");
+          }else if (commandData.command === "clear") {
             if (tutFunc.current) {
               tutFunc.current.myCleatFunction();
             }
           } else if (commandData.command === "submit") {
+            //  mySubmitFunction();
             if (tutFunc.current) {
               tutFunc.current.handleSubmit();
               sendData();
