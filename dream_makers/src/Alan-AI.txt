@@ -73,6 +73,13 @@ intent('declare a function named $(W* .+)',async p => {
     p.play({command: "func", param: func,name: p.W.value});
 });
 
+
+intent('what is there in the question page', 
+       'open the question page',p => {
+    p.play('Opening the questions page, we have Prime Numbers, Sum of Digits of a number, Fibonacci Number, Two Sum, Binary Search, Height Checker, Find All Duplicates in an Array, Valid Anagram or Combination Sum');
+    p.play({command:'question'});
+});
+
 const Input = context(() => {
     intent("$(T* .+)", p => p.resolve(p.T));
 })
@@ -139,11 +146,10 @@ question(
 // );
 intent('I am thrilled to start my coding career with this platform. Let’s discover the tutorial page.', 
        'open the tutorial page',p => {
-    p.play('opening the Panda page');
+    p.play('opening the Tutorial page');
     p.play({command:'goTutorial'});
     p.play('The tutorial page of our website provides a beginner-friendly voice-controlled interface where you can write your code. The python compiler is all set to fuel your programming journey.');
 });
-
 
 const usin = context(() => {
     intent("$(J* .+)", p => p.resolve(p.J));
@@ -163,9 +169,10 @@ intent('what is there in the home page',
 //     p.play({command:'submit'});
 // //     p.play('your output came out to be 3 6');
 // });
+
 intent("Submit my code", p => {
     p.play({command: 'submit'});
-    p.play("your output came out to be ['apple', 'banana', 'cherry']");
+//     p.play("your output came out to be ['apple', 'banana', 'cherry']");
 });
 question(
   "Great, I enjoyed your company and would be glad to visit this website again.",
@@ -178,11 +185,13 @@ question(
 //     p.play({command:'goBack'});
 // });
 
-// projectAPI.getOutput = function(p, param, callback) {
-//     p.userData.data = param.data;
-//     p.play(`The Output came out to be : ${param.output}`);
-//     callback();
-// };
+projectAPI.getOutput = function(p, param, callback) {
+//     p.userData.data = param.output;
+    if(param.output){
+    p.play(`The Output came out to be : ${param.output}`);
+    }
+    callback();
+};
 // Use this sample to create your own voice commands
 // intent('hello world', p => {
 //     p.play('(hello|hi there)');
@@ -244,22 +253,98 @@ question(
   "who is in the team",
   reply("Harshita Bhatia Content writer and digital creater, Pankaj Web Developer, Smriti UI designer and Front-end Web Developer, Lovekesh Bansal backend developer. Click on linkedin icon to connect to them")
 );
-//Team
-// question(
-//     "Tell (us|me) about the team",
-//     p => {
-//         p.play({command: "gotoFaq",faqId: 6})
-//         p.play("Harshita Bhatia Content writer, Pankaj Web Developer, Smriti Front-end Web Developer, Lovekesh Bansal backend developer. Click on linkedin icon to connect to them")
-//     }
-// );
-// //Team
-// question(
-//     "who is in the team",
-//     p => {
-//         p.play({command: "gotoFaq",faqId: 6})
-//         p.play("Harshita Bhatia Content writer and digital creater, Pankaj Web Developer, Smriti UI designer and Front-end Web Developer, Lovekesh Bansal backend developer. Click on linkedin icon to connect to them")
-//     }
-// );
-//        
-       
+//Q1
+question(
+    "Prime Numbers",
+    "I would like to try Prime Numbers",
+    p => {
+        p.play({command: "gotoQ",QId: 1})
+        p.play("Given a number N, the task is to check if N is a Prime Number or not")
+    }
+);
+//Q2
+question(
+    "Sum of Digits of a number",
+    "I would like to try Sum of Digits of a number",
+    p => {
+        p.play({command: "gotoQ",QId: 2})
+        p.play("Given a number, the task is to find the Sum of Digits of this number using Command Line Arguments.")
+    }
+);
+//Q3
+question(
+    "Palindrome Number",
+    "I would like to try Palindrome Number",
+    p => {
+        p.play({command: "gotoQ",QId: 3})
+        p.play("Given an integer x, return true if x is palindrome integer.An integer is a palindrome when it reads the same backward as forward.For example, 121 is a palindrome while 123 is not.")
+    }
+);
+//Q4
+question(
+    "Fibonacci Number",
+    "I would like to try Valid Anagram",
+    p => {
+        p.play({command: "gotoQ",QId: 4})
+        p.play("The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is,F(0) = 0, F(1) = 1F(n) = F(n - 1) + F(n - 2), for n > 1.Given n, calculate F(n).")
+    }
+);
+
+//Q5
+question(
+    "Two Sum",
+    "I would like to try Two Sum",
+    p => {
+        p.play({command: "gotoQ",QId: 5})
+        p.play("Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.You may assume that each input would have exactly one solution, and you may not use the same element twice.You can return the answer in any order.")
+    }
+);
+//Q6
+question(
+    "Binary Search",
+    "I would like to try Binary Search",
+    p => {
+        p.play({command: "gotoQ",QId: 6})
+        p.play("Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1.You must write an algorithm with O(log n) runtime complexity.")
+    }
+);
+//Q7
+question(
+    "Height Checker",
+    "I would like to try Height Checker",
+    p => {
+        p.play({command: "gotoQ",QId: 7})
+        p.play("A school is trying to take an annual photo of all the students. The students are asked to stand in a single file line in non-decreasing order by height. Let this ordering be represented by the integer array expected where expected[i] is the expected height of the ith student in line.You are given an integer array heights representing the current order that the students are standing in. Each heights[i] is the height of the ith student in line (0-indexed).Return the number of indices where heights[i] != expected[i].")
+    }
+);
+
+//Q8
+question(
+    "Find All Duplicates in an Array",
+    "I would like to try Find All Duplicates in an Array",
+    p => {
+        p.play({command: "gotoQ",QId: 8})
+        p.play("Given an integer array nums of length n where all the integers of nums are in the range [1, n] and each integer appears once or twice, return an array of all the integers that appears twice.You must write an algorithm that runs in O(n) time and uses only constant extra space.")
+    }
+);
+//Q9
+question(
+    "Valid Anagram",
+    "I would like to try Valid Anagram",
+    p => {
+        p.play({command: "gotoQ",QId: 8})
+        p.play("Given a number N, the task is to check if N is a Prime Number or not")
+    }
+);
+
+//Q10
+question(
+    "Combination Sum",
+    "I would like to try Combination Sum",
+    p => {
+        p.play({command: "gotoQ",QId: 10})
+        p.play("Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.The same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the frequency of at least one of the chosen numbers is different.It is guaranteed that the number of unique combinations that sum up to target is less than 150 combinations for the given input.")
+    }
+);
+
   
